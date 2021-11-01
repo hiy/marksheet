@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+.mark_label {
+  position: relative;
+  /* ボックスの位置を指定する */
+  padding: 0 0 0 42px;
+  /* ボックス内側の余白を指定する */
+}
+
+.mark_label:after,
+.mark_label:before {
+  position: absolute;
+  /* ボックスの位置を指定する */
+  content: "";
+  /* ボックスのコンテンツ */
+  display: block;
+  /* ブロックレベル要素化する */
+  top: 0;
+  /* 上部から配置の基準位置を決める */
+}
+
+.mark_label:after {
+  left: 0;
+  /* 左から配置の基準位置を決める */
+  /* チェック枠の位置 */
+  width: 1.2rem;
+  /* ボックスの横幅を指定する */
+  height: 1.8rem;
+  /* ボックスの高さを指定する */
+  border: 2px solid #ccc;
+  /* ボックスの境界線を実線で指定する */
+  border-radius: 50%;
+  /* ボックスの角丸を指定する */
+}
+
+.mark_label:before {
+  left: 0;
+  /* 左から配置の基準位置を決める */
+  /* チェックマークの位置 */
+  width: 1.2rem;
+  /* ボックスの横幅を指定する */
+  height: 1.8rem;
+  /* ボックスの高さを指定する */
+  background: #0171bd;
+  border: 2px solid #0171bd;
+  /* ボックスの背景色を指定する */
+  border-radius: 50%;
+  /* ボックスの角丸を指定する */
+  opacity: 0;
+  /* 要素を透過指定する */
+}
+
+input[type=radio]:checked+.mark_label:before {
+  opacity: 1;
+  /* 要素を表示する */
+}
+
+.mark_label:hover:after {
+  border-color: #0171bd;
+  /* ボックスの境界線を実線で指定する */
+}
+
+.mark_label>span {
+  position: absolute;
+  left: 4px;
+  top: 2px;
+
+}
