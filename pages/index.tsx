@@ -26,6 +26,7 @@ const Home: NextPage = () => {
     if (scoringMode) return false;
     if (!confirm("Are you sure? ")) return false;
     setUserAnswers({});
+    setUserScore({});
   };
 
   const handleScoring = (questionNumber: number, result: boolean) => {
