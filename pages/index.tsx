@@ -738,7 +738,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className="p-6">
-        <a href="https://hiy.github.io/marksheet/">source code</a>
+        <a href="https://github.com/hiy/marksheet">source code</a>
       </footer>
     </div>
   );
