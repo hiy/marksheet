@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import AnswerArea from "../components/AnswerArea";
 import ScoringArea from "../components/ScoringArea";
 import { ABCDIndex, userAnswerData } from "../domain/Answer";
 
+const localStorageKey = "MarkSheetAppKey";
+
 const Home: NextPage = () => {
   const today = new Date();
-
   const [userAnswerData, setUserAnswerData] = useState<userAnswerData>({});
-
   const [scoringMode, setScoringMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    const data = readLocalStorage(localStorageKey);
+    setUserAnswerData(data);
+  }, []);
+
+  const readLocalStorage = (key: string) => {
+    const value = localStorage.getItem(key);
+    if (value) return JSON.parse(value);
+    return {};
+  };
+
+  const writeLocalStorage = (key: string, value: userAnswerData) => {
+    localStorage.setItem(localStorageKey, JSON.stringify(value));
+  };
 
   const handleCheckAnswer = (
     questionNumber: number,
@@ -20,17 +35,19 @@ const Home: NextPage = () => {
     const newUserAnswerData = { ...userAnswerData };
     const newData = userAnswerData[questionNumber] || {
       selectedAnswer: null,
-      isCorrect: null,
+      isCorrect: undefined,
     };
     newData.selectedAnswer = answerIndex;
     newUserAnswerData[questionNumber] = newData;
     setUserAnswerData(newUserAnswerData);
+    writeLocalStorage(localStorageKey, newUserAnswerData);
   };
 
   const clearAnswer = () => {
     if (scoringMode) return false;
     if (!confirm("Are you sure? ")) return false;
     setUserAnswerData({});
+    writeLocalStorage(localStorageKey, {});
   };
 
   const handleScoring = (questionNumber: number, result: boolean) => {
@@ -38,11 +55,12 @@ const Home: NextPage = () => {
     const newUserAnswerData = { ...userAnswerData };
     const newData = userAnswerData[questionNumber] || {
       selectedAnswer: null,
-      isCorrect: null,
+      isCorrect: undefined,
     };
     newData.isCorrect = result;
     newUserAnswerData[questionNumber] = newData;
     setUserAnswerData(newUserAnswerData);
+    writeLocalStorage(localStorageKey, newUserAnswerData);
   };
 
   const countCorrectAnswer = (range: number[]) => {
@@ -71,7 +89,7 @@ const Home: NextPage = () => {
             <div className="mb-4">{today.toLocaleDateString()}</div>
 
             {scoringMode ? (
-              <div className="flex flex-row justify-between items-end">
+              <div className="flex flex-row justify-start items-end">
                 <div className="flex flex-row">
                   <div>
                     <div className="border relative">Part1</div>
@@ -137,7 +155,7 @@ const Home: NextPage = () => {
                 </div>
 
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-48 h-10"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-48 h-10 ml-2"
                   onClick={() => {
                     setScoringMode(false);
                   }}>
