@@ -186,7 +186,7 @@ const Home: NextPage = () => {
                 <div>
                   {range(1, 10).map((questionNumber) => {
                     return (
-                      <div className="border relative" key={questionNumber}>
+                      <div className={"border relative"} key={questionNumber}>
                         <AnswerArea
                           questionNumber={questionNumber}
                           disabled={scoringMode}
@@ -204,6 +204,9 @@ const Home: NextPage = () => {
                             handleScoring(questionNumber, result);
                           }}
                         />
+                        {questionNumber == 6 ? (
+                          <div className="border-b-4 border-gray-500" />
+                        ) : null}
                       </div>
                     );
                   })}
@@ -285,6 +288,9 @@ const Home: NextPage = () => {
                               handleScoring(questionNumber, result);
                             }}
                           />
+                          {questionNumber == 31 ? (
+                            <div className="border-b-4 border-gray-500" />
+                          ) : null}
                         </div>
                       );
                     })}
@@ -592,6 +598,9 @@ const Home: NextPage = () => {
                               handleScoring(questionNumber, result);
                             }}
                           />
+                          {questionNumber == 146 ? (
+                            <div className="border-b-4 border-gray-500" />
+                          ) : null}
                         </div>
                       );
                     })}
