@@ -3,43 +3,52 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import AnswerArea from "../components/AnswerArea";
 import ScoringArea from "../components/ScoringArea";
-import { AnswerType, userAnswersType, userScoreType } from "../domain/Answer";
+import { ABCDIndex, userAnswerData } from "../domain/Answer";
 
 const Home: NextPage = () => {
   const today = new Date();
 
-  const [userAnswers, setUserAnswers] = useState<userAnswersType>({});
-  const [userScore, setUserScore] = useState<userScoreType>({});
+  const [userAnswerData, setUserAnswerData] = useState<userAnswerData>({});
+
   const [scoringMode, setScoringMode] = useState<boolean>(false);
 
   const handleCheckAnswer = (
     questionNumber: number,
-    answerIndex: AnswerType
+    answerIndex: ABCDIndex
   ) => {
     if (scoringMode) return false;
-    const newUserAnswers = { ...userAnswers };
-    newUserAnswers[questionNumber] = answerIndex;
-    setUserAnswers(newUserAnswers);
+    const newUserAnswerData = { ...userAnswerData };
+    const newData = userAnswerData[questionNumber] || {
+      selectedAnswer: null,
+      isCorrect: null,
+    };
+    newData.selectedAnswer = answerIndex;
+    newUserAnswerData[questionNumber] = newData;
+    setUserAnswerData(newUserAnswerData);
   };
 
   const clearAnswer = () => {
     if (scoringMode) return false;
     if (!confirm("Are you sure? ")) return false;
-    setUserAnswers({});
-    setUserScore({});
+    setUserAnswerData({});
   };
 
   const handleScoring = (questionNumber: number, result: boolean) => {
     if (!scoringMode) return false;
-    const newUserScore = { ...userScore };
-    newUserScore[questionNumber] = result;
-    setUserScore(newUserScore);
+    const newUserAnswerData = { ...userAnswerData };
+    const newData = userAnswerData[questionNumber] || {
+      selectedAnswer: null,
+      isCorrect: null,
+    };
+    newData.isCorrect = result;
+    newUserAnswerData[questionNumber] = newData;
+    setUserAnswerData(newUserAnswerData);
   };
 
   const countCorrectAnswer = (range: number[]) => {
     let count = 0;
-    for (const qNo of range) {
-      if (userScore[qNo]) count += 1;
+    for (const questionNumber of range) {
+      if (userAnswerData[questionNumber]?.isCorrect) count += 1;
     }
     return count;
   };
@@ -166,8 +175,10 @@ const Home: NextPage = () => {
                           handleCheck={(answerIndex) => {
                             handleCheckAnswer(questionNumber, answerIndex);
                           }}
-                          userAnswer={userAnswers[questionNumber]}
-                          score={userScore[questionNumber]}
+                          userAnswer={
+                            userAnswerData[questionNumber]?.selectedAnswer
+                          }
+                          score={userAnswerData[questionNumber]?.isCorrect}
                         />
                         <ScoringArea
                           disabled={!scoringMode}
@@ -191,11 +202,13 @@ const Home: NextPage = () => {
                           <AnswerArea
                             questionNumber={questionNumber}
                             disabled={scoringMode}
-                            handleCheck={(answerIndex: AnswerType) => {
+                            handleCheck={(answerIndex: ABCDIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -217,8 +230,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -241,8 +256,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -270,8 +287,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -293,8 +312,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -317,8 +338,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -346,8 +369,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -369,8 +394,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -393,8 +420,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -426,8 +455,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -450,8 +481,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -473,8 +506,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -502,8 +537,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -526,8 +563,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -555,8 +594,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -579,8 +620,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -603,8 +646,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -626,8 +671,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}
@@ -650,8 +697,10 @@ const Home: NextPage = () => {
                             handleCheck={(answerIndex) => {
                               handleCheckAnswer(questionNumber, answerIndex);
                             }}
-                            userAnswer={userAnswers[questionNumber]}
-                            score={userScore[questionNumber]}
+                            userAnswer={
+                              userAnswerData[questionNumber]?.selectedAnswer
+                            }
+                            score={userAnswerData[questionNumber]?.isCorrect}
                           />
                           <ScoringArea
                             disabled={!scoringMode}

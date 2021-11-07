@@ -1,10 +1,10 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { AnswerType } from "../domain/Answer";
+import { ABCDIndex } from "../domain/Answer";
 
 type Props = {
   questionNumber: number;
   userAnswer?: number | null;
-  handleCheck: (answerIndex: AnswerType) => void;
+  handleCheck: (answerIndex: ABCDIndex) => void;
   disabled: boolean;
   score: boolean | undefined;
 };
