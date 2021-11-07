@@ -22,6 +22,12 @@ const Home: NextPage = () => {
     setUserAnswers(newUserAnswers);
   };
 
+  const clearAnswer = () => {
+    if (scoringMode) return false;
+    if (!confirm("Are you sure? ")) return false;
+    setUserAnswers({});
+  };
+
   const handleScoring = (questionNumber: number, result: boolean) => {
     if (!scoringMode) return false;
     const newUserScore = { ...userScore };
@@ -136,6 +142,12 @@ const Home: NextPage = () => {
                     setScoringMode(true);
                   }}>
                   自己採点する
+                </button>
+
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-32 ml-2"
+                  onClick={clearAnswer}>
+                  クリア
                 </button>
               </div>
             )}
