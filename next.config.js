@@ -4,8 +4,8 @@ const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
   env: {
-    basePath: isProduction ? '/timer-todo-front' : ''
+    basePath: isProduction ? '/marksheet' : ''
   },
   reactStrictMode: true,
-  basePath: isProduction ? '/timer-todo-front' : '',
+  basePath: isProduction ? '/marksheet' : '',
 }
